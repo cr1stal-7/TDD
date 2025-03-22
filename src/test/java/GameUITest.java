@@ -46,6 +46,26 @@ public class GameUITest {
         assertTrue(components[4] instanceof JButton);
     }
 
+    @Test
+    public void testMaxPlayers() {
+        List<String> melodies = List.of("src/main/resources/1.wav");
+        List<String> melodyNames = List.of("Моя мелодия");
+        GameLogic gameLogic = new GameLogic(melodies, melodyNames);
+        Melody melody = new Melody();
+        GameUI gameUI = new GameUI(gameLogic, melody);
+        JPanel playersPanel = gameUI.getPlayersPanel();
+        for (int i = 0; i < 3; i++) {
+            JButton addPlayerButton = findButtonByText(gameUI, "Добавить игрока");
+            assertNotNull(addPlayerButton, "Кнопка 'Добавить игрока' не найдена");
+            addPlayerButton.doClick();
+        }
+        assertEquals(3, playersPanel.getComponentCount(), "Количество игроков должно быть 3");
+        JButton addPlayerButton = findButtonByText(gameUI, "Добавить игрока");
+        assertNotNull(addPlayerButton, "Кнопка 'Добавить игрока' не найдена");
+        addPlayerButton.doClick();
+        assertEquals(3, playersPanel.getComponentCount(), "Количество игроков не должно превышать 3");
+    }
+
     private JButton findButtonByText(JFrame frame, String text) {
         for (Component comp : frame.getContentPane().getComponents()) {
             if (comp instanceof JPanel) {

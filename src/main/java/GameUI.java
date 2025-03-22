@@ -10,6 +10,7 @@ public class GameUI extends JFrame {
     private Melody melody;
     private JPanel playersPanel;
     private JButton addPlayerButton;
+    private int playerCount = 0;
 
     public GameUI(GameLogic gameLogic, Melody melody) {
         this.gameLogic = gameLogic;
@@ -39,24 +40,29 @@ public class GameUI extends JFrame {
     }
 
     private void addPlayer() {
-        JPanel playerPanel = new JPanel();
-        playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
+        if (playerCount < 3) {
+            JPanel playerPanel = new JPanel();
+            playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
 
-        JTextField nameField = new JTextField(10);
-        JLabel scoreLabel = new JLabel("Баллы: 0");
-        JTextField melodyField = new JTextField(15);
-        JButton submitButton = new JButton("Отправить");
+            JTextField nameField = new JTextField(10);
+            JLabel scoreLabel = new JLabel("Баллы: 0");
+            JTextField melodyField = new JTextField(15);
+            JButton submitButton = new JButton("Отправить");
 
-        playerPanel.add(nameField);
-        playerPanel.add(scoreLabel);
-        playerPanel.add(new JLabel("Ответ:"));
-        playerPanel.add(melodyField);
-        playerPanel.add(submitButton);
+            playerPanel.add(nameField);
+            playerPanel.add(scoreLabel);
+            playerPanel.add(new JLabel("Ответ:"));
+            playerPanel.add(melodyField);
+            playerPanel.add(submitButton);
 
-        playersPanel.add(playerPanel);
+            playersPanel.add(playerPanel);
 
-        revalidate();
-        repaint();
+            playerCount++;
+            revalidate();
+            repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Максимальное количество игроков (3) достигнуто!");
+        }
     }
 
     public JPanel getPlayersPanel() {
