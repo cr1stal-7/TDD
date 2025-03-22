@@ -9,6 +9,7 @@ public class Melody {
 
     public void playMelody(String melodyPath) {
         try {
+            stopMelody();
             File audioFile = new File(melodyPath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             currentClip = AudioSystem.getClip();

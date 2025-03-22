@@ -23,4 +23,13 @@ public class MelodyTest {
         melody.stopMelody();
         assertFalse(melody.isPlaying());
     }
+
+    @Test
+    public void testStopBeforePlayingNewMelody() throws InterruptedException {
+        Melody melody = new Melody();
+        melody.playMelody("src/main/resources/1.wav");
+        Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+        melody.playMelody("src/main/resources/2.wav");
+        Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+    }
 }
