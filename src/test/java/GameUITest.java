@@ -78,4 +78,20 @@ public class GameUITest {
         }
         return null;
     }
+
+    @Test
+    public void testStartGameAddsMelodyButtons() {
+        List<String> melodies = List.of("src/main/resources/1.wav", "src/main/resources/2.wav");
+        List<String> melodyNames = List.of("Моя мелодия", "Я буду");
+        GameLogic gameLogic = new GameLogic(melodies, melodyNames);
+        Melody melody = new Melody();
+        GameUI gameUI = new GameUI(gameLogic, melody);
+
+        JButton startButton = findButtonByText(gameUI, "НАЧАТЬ ИГРУ");
+        assertNotNull(startButton, "Кнопка 'НАЧАТЬ ИГРУ' не найдена");
+        startButton.doClick();
+
+        JPanel melodiesPanel = (JPanel) gameUI.getContentPane().getComponent(2);
+        assertEquals(2, melodiesPanel.getComponentCount(), "На панели мелодий должно быть 2 кнопки");
+    }
 }

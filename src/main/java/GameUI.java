@@ -9,6 +9,10 @@ public class GameUI extends JFrame {
     private GameLogic gameLogic;
     private Melody melody;
     private JPanel playersPanel;
+
+    private JPanel melodiesPanel;
+
+    private JButton startButton;
     private JButton addPlayerButton;
     private int playerCount = 0;
 
@@ -30,11 +34,25 @@ public class GameUI extends JFrame {
             }
         });
         addPlayerPanel.add(addPlayerButton);
+        addPlayerPanel.add(Box.createRigidArea(new Dimension(250, 0)));
+
+        startButton = new JButton("НАЧАТЬ ИГРУ");
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startGame();
+            }
+        });
+        addPlayerPanel.add(startButton);
         add(addPlayerPanel, BorderLayout.NORTH);
 
         playersPanel = new JPanel();
         playersPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         add(playersPanel, BorderLayout.CENTER);
+
+        melodiesPanel = new JPanel();
+        melodiesPanel.setLayout(new GridLayout(3, 3, 10, 10));
+        add(melodiesPanel, BorderLayout.SOUTH);
 
         setVisible(true);
     }
@@ -67,5 +85,16 @@ public class GameUI extends JFrame {
 
     public JPanel getPlayersPanel() {
         return playersPanel;
+    }
+
+    private void startGame() {
+        melodiesPanel.removeAll();
+        for (String music : gameLogic.getMelodies()) {
+            JButton melodyButton = new JButton("Мелодия " + (gameLogic.getMelodies().indexOf(music) + 1));
+            melodyButton.setPreferredSize(new Dimension(200, 100));
+            melodiesPanel.add(melodyButton);
+        }
+        revalidate();
+        repaint();
     }
 }
