@@ -17,4 +17,11 @@ public class PlayerTest {
         Player player = new Player("Bob");
         assertEquals(0, player.getScore());
     }
+
+    @Test
+    public void testIncrementScore() {
+        Player player = new Player("Alice");
+        player.incrementScore();
+        assertEquals(1, player.getScore());
+    }
 }
