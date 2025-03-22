@@ -94,4 +94,30 @@ public class GameUITest {
         JPanel melodiesPanel = (JPanel) gameUI.getContentPane().getComponent(2);
         assertEquals(2, melodiesPanel.getComponentCount(), "На панели мелодий должно быть 2 кнопки");
     }
+
+    @Test
+    public void testStartGameEnablesComponents() {
+        List<String> melodies = List.of("src/main/resources/1.wav");
+        List<String> melodyNames = List.of("Моя мелодия");
+        GameLogic gameLogic = new GameLogic(melodies, melodyNames);
+        Melody melody = new Melody();
+        GameUI gameUI = new GameUI(gameLogic, melody);
+
+        JButton addPlayerButton = findButtonByText(gameUI, "Добавить игрока");
+        assertNotNull(addPlayerButton, "Кнопка 'Добавить игрока' не найдена");
+        addPlayerButton.doClick();
+        JPanel playersPanel = gameUI.getPlayersPanel();
+        JPanel playerPanel = (JPanel) playersPanel.getComponent(0);
+
+        JTextField melodyField = (JTextField) playerPanel.getComponent(3);
+        JButton submitButton = (JButton) playerPanel.getComponent(4);
+        assertFalse(melodyField.isVisible(), "Поле для ответа должно быть скрыто до начала игры");
+        assertFalse(submitButton.isVisible(), "Кнопка 'Отправить' должна быть скрыто до начала игры");
+
+        JButton startButton = findButtonByText(gameUI, "НАЧАТЬ ИГРУ");
+        assertNotNull(startButton, "Кнопка 'НАЧАТЬ ИГРУ' не найдена");
+        startButton.doClick();
+        assertTrue(melodyField.isVisible(), "Поле для ответа должно быть доступно для редактирования после начала игры");
+        assertTrue(submitButton.isVisible(), "Кнопка 'Отправить' должна быть доступна после начала игры");
+    }
 }

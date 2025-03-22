@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameUI extends JFrame {
     private GameLogic gameLogic;
@@ -14,11 +16,13 @@ public class GameUI extends JFrame {
 
     private JButton startButton;
     private JButton addPlayerButton;
+    private List<Component> hiddenComponents;
     private int playerCount = 0;
 
     public GameUI(GameLogic gameLogic, Melody melody) {
         this.gameLogic = gameLogic;
         this.melody = melody;
+        this.hiddenComponents = new ArrayList<>();
 
         setTitle("Угадай мелодию");
         setSize(550, 550);
@@ -65,11 +69,19 @@ public class GameUI extends JFrame {
             JTextField nameField = new JTextField(10);
             JLabel scoreLabel = new JLabel("Баллы: 0");
             JTextField melodyField = new JTextField(15);
+            JLabel answerLabel = new JLabel("Ответ:");
             JButton submitButton = new JButton("Отправить");
+
+            hiddenComponents.add(melodyField);
+            hiddenComponents.add(answerLabel);
+            hiddenComponents.add(submitButton);
+            for (Component component : hiddenComponents) {
+                component.setVisible(false);
+            }
 
             playerPanel.add(nameField);
             playerPanel.add(scoreLabel);
-            playerPanel.add(new JLabel("Ответ:"));
+            playerPanel.add(answerLabel);
             playerPanel.add(melodyField);
             playerPanel.add(submitButton);
 
@@ -93,6 +105,9 @@ public class GameUI extends JFrame {
             JButton melodyButton = new JButton("Мелодия " + (gameLogic.getMelodies().indexOf(music) + 1));
             melodyButton.setPreferredSize(new Dimension(200, 100));
             melodiesPanel.add(melodyButton);
+        }
+        for (Component component : hiddenComponents) {
+            component.setVisible(true);
         }
         revalidate();
         repaint();
