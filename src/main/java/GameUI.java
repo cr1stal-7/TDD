@@ -87,6 +87,18 @@ public class GameUI extends JFrame {
 
             playersPanel.add(playerPanel);
 
+            submitButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String answer = melodyField.getText();
+                    if (gameLogic.checkAnswer(answer)) {
+                        int score = Integer.parseInt(scoreLabel.getText().split(": ")[1]);
+                        scoreLabel.setText("Баллы: " + (score + 1));
+                    }
+                    melodyField.setText("");
+                }
+            });
+
             playerCount++;
             revalidate();
             repaint();

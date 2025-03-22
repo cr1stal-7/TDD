@@ -152,6 +152,38 @@ public class GameUITest {
         assertTrue(melody.isPlaying(), "Мелодия должна воспроизводиться после нажатия на кнопку");
     }
 
+    @Test
+    public void testPlayerAnswer() {
+        List<String> melodies = List.of("src/main/resources/1.wav");
+        List<String> melodyNames = List.of("Моя мелодия");
+        GameLogic gameLogic = new GameLogic(melodies, melodyNames);
+        Melody melody = new Melody();
+        GameUI gameUI = new GameUI(gameLogic, melody);
+
+        JButton addPlayerButton = findButtonByText(gameUI, "Добавить игрока");
+        assertNotNull(addPlayerButton, "Кнопка 'Добавить игрока' не найдена");
+        addPlayerButton.doClick();
+        JPanel playersPanel = gameUI.getPlayersPanel();
+        JPanel playerPanel = (JPanel) playersPanel.getComponent(0);
+
+        JLabel scoreLabel = (JLabel) playerPanel.getComponent(1);
+        JTextField melodyField = (JTextField) playerPanel.getComponent(3);
+        JButton submitButton = (JButton) playerPanel.getComponent(4);
+
+        gameLogic.setCurrentMelodyIndex(0);
+        assertEquals("Баллы: 0", scoreLabel.getText(), "Начальный счет должен быть 0");
+        melodyField.setText("Неправильный ответ");
+        submitButton.doClick();
+        assertEquals("Баллы: 0", scoreLabel.getText(), "Счет не должен измениться при неправильном ответе");
+        assertEquals("", melodyField.getText(), "Поле для ответа должно очиститься после отправки");
+
+        melodyField.setText("Моя мелодия");
+        submitButton.doClick();
+        assertEquals("Баллы: 1", scoreLabel.getText(), "Счет должен увеличиться на 1 при правильном ответе");
+        assertEquals("", melodyField.getText(), "Поле для ответа должно очиститься после отправки");
+        assertFalse(melody.isPlaying(), "Мелодия должна была остановиться после правильного ответа");
+    }
+
     private JButton findButtonByText(JFrame frame, String text) {
         for (Component comp : frame.getContentPane().getComponents()) {
             if (comp instanceof JPanel) {
