@@ -29,6 +29,9 @@ public class GameLogic {
     }
 
     public boolean checkAnswer(String answer) {
+        if (currentMelodyIndex == -1) {
+            return false;
+        }
         return answer.equalsIgnoreCase(melodyNames.get(currentMelodyIndex));
     }
 }

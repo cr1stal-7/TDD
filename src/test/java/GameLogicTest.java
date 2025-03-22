@@ -37,4 +37,13 @@ public class GameLogicTest {
         assertTrue(gameLogic.checkAnswer("Моя мелодия"));
         assertFalse(gameLogic.checkAnswer("Я буду"));
     }
+
+    @Test
+    public void testCheckAnswerWhenNoMelodySelected() {
+        List<String> melodies = List.of("src/main/resources/1.wav");
+        List<String> melodyNames = List.of("Моя мелодия");
+        GameLogic gameLogic = new GameLogic(melodies, melodyNames);
+
+        assertFalse(gameLogic.checkAnswer("Я буду"));
+    }
 }
