@@ -95,6 +95,7 @@ public class GameUI extends JFrame {
                         int score = Integer.parseInt(scoreLabel.getText().split(": ")[1]);
                         scoreLabel.setText("Баллы: " + (score + 1));
                         melody.stopMelody();
+                        updateMelodyButton(gameLogic.getCurrentMelodyIndex());
                     }
                     melodyField.setText("");
                 }
@@ -106,6 +107,17 @@ public class GameUI extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Максимальное количество игроков (3) достигнуто!");
         }
+    }
+
+    private void updateMelodyButton(int melodyIndex) {
+        JButton melodyButton = (JButton) melodiesPanel.getComponent(melodyIndex);
+        JLabel melodyLabel = new JLabel(gameLogic.getMelodyNames().get(melodyIndex), SwingConstants.CENTER);
+        melodyLabel.setPreferredSize(new Dimension(200, 100));
+        melodyLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        melodiesPanel.remove(melodyButton);
+        melodiesPanel.add(melodyLabel, melodyIndex);
+        melodiesPanel.revalidate();
+        melodiesPanel.repaint();
     }
 
     public JPanel getPlayersPanel() {
