@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameUITest {
@@ -66,18 +68,6 @@ public class GameUITest {
         assertEquals(3, playersPanel.getComponentCount(), "Количество игроков не должно превышать 3");
     }
 
-    private JButton findButtonByText(JFrame frame, String text) {
-        for (Component comp : frame.getContentPane().getComponents()) {
-            if (comp instanceof JPanel) {
-                for (Component subComp : ((JPanel) comp).getComponents()) {
-                    if (subComp instanceof JButton && ((JButton) subComp).getText().equals(text)) {
-                        return (JButton) subComp;
-                    }
-                }
-            }
-        }
-        return null;
-    }
 
     @Test
     public void testStartGameAddsMelodyButtons() {
@@ -141,5 +131,37 @@ public class GameUITest {
         assertNotNull(startButton, "Кнопка 'НАЧАТЬ ИГРУ' не найдена");
         startButton.doClick();
         assertFalse(nameField.isEditable(), "Поле для имени должно быть недоступно для редактирования после начала игры");
+    }
+
+    @Test
+    public void testMelodyButtonPlaysMelody() throws InterruptedException {
+        List<String> melodies = List.of("src/main/resources/1.wav", "src/main/resources/2.wav");
+        List<String> melodyNames = List.of("Моя мелодия", "Я буду");
+        GameLogic gameLogic = new GameLogic(melodies, melodyNames);
+        Melody melody = new Melody();
+        GameUI gameUI = new GameUI(gameLogic, melody);
+
+        JButton startButton = findButtonByText(gameUI, "НАЧАТЬ ИГРУ");
+        assertNotNull(startButton, "Кнопка 'НАЧАТЬ ИГРУ' не найдена");
+        startButton.doClick();
+
+        JPanel melodiesPanel = (JPanel) gameUI.getContentPane().getComponent(2);
+        JButton melodyButton = (JButton) melodiesPanel.getComponent(0);
+        melodyButton.doClick();
+        Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+        assertTrue(melody.isPlaying(), "Мелодия должна воспроизводиться после нажатия на кнопку");
+    }
+
+    private JButton findButtonByText(JFrame frame, String text) {
+        for (Component comp : frame.getContentPane().getComponents()) {
+            if (comp instanceof JPanel) {
+                for (Component subComp : ((JPanel) comp).getComponents()) {
+                    if (subComp instanceof JButton && ((JButton) subComp).getText().equals(text)) {
+                        return (JButton) subComp;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

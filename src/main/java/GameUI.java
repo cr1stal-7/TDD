@@ -111,6 +111,14 @@ public class GameUI extends JFrame {
         for (String music : gameLogic.getMelodies()) {
             JButton melodyButton = new JButton("Мелодия " + (gameLogic.getMelodies().indexOf(music) + 1));
             melodyButton.setPreferredSize(new Dimension(200, 100));
+            int melodyIndex = gameLogic.getMelodies().indexOf(music);
+            melodyButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    gameLogic.setCurrentMelodyIndex(melodyIndex);
+                    melody.playMelody(music);
+                }
+            });
             melodiesPanel.add(melodyButton);
         }
         for (Component component : hiddenComponents) {
