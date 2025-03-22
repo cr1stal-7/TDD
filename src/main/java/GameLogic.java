@@ -27,4 +27,8 @@ public class GameLogic {
     public int getCurrentMelodyIndex() {
         return currentMelodyIndex;
     }
+
+    public boolean checkAnswer(String answer) {
+        return answer.equalsIgnoreCase(melodyNames.get(currentMelodyIndex));
+    }
 }

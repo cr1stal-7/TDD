@@ -26,4 +26,15 @@ public class GameLogicTest {
         gameLogic.setCurrentMelodyIndex(0);
         assertEquals(0, gameLogic.getCurrentMelodyIndex());
     }
+
+    @Test
+    public void testCheckAnswer() {
+        List<String> melodies = List.of("src/main/resources/1.wav");
+        List<String> melodyNames = List.of("Моя мелодия");
+        GameLogic gameLogic = new GameLogic(melodies, melodyNames);
+
+        gameLogic.setCurrentMelodyIndex(0);
+        assertTrue(gameLogic.checkAnswer("Моя мелодия"));
+        assertFalse(gameLogic.checkAnswer("Я буду"));
+    }
 }
