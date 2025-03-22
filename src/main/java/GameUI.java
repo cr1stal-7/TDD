@@ -26,12 +26,13 @@ public class GameUI extends JFrame {
         this.hiddenComponents = new ArrayList<>();
 
         setTitle("Угадай мелодию");
-        setSize(550, 550);
+        setSize(740, 550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         JPanel addPlayerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         addPlayerButton = new JButton("Добавить игрока");
+        addPlayerButton.setPreferredSize(new Dimension(200, 35));
         addPlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,9 +40,10 @@ public class GameUI extends JFrame {
             }
         });
         addPlayerPanel.add(addPlayerButton);
-        addPlayerPanel.add(Box.createRigidArea(new Dimension(250, 0)));
+        addPlayerPanel.add(Box.createRigidArea(new Dimension(280, 0)));
 
         startButton = new JButton("НАЧАТЬ ИГРУ");
+        startButton.setPreferredSize(new Dimension(200, 35));
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,9 +69,9 @@ public class GameUI extends JFrame {
             JPanel playerPanel = new JPanel();
             playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
 
-            JTextField nameField = new JTextField(10);
+            JTextField nameField = new JTextField(25);
             JLabel scoreLabel = new JLabel("Баллы: 0");
-            JTextField melodyField = new JTextField(15);
+            JTextField melodyField = new JTextField(25);
             JLabel answerLabel = new JLabel("Ответ:");
             JButton submitButton = new JButton("Отправить");
 
