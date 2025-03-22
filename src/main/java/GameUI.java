@@ -94,6 +94,7 @@ public class GameUI extends JFrame {
                     if (gameLogic.checkAnswer(answer)) {
                         int score = Integer.parseInt(scoreLabel.getText().split(": ")[1]);
                         scoreLabel.setText("Баллы: " + (score + 1));
+                        melody.stopMelody();
                     }
                     melodyField.setText("");
                 }
