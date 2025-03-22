@@ -100,6 +100,13 @@ public class GameUI extends JFrame {
     }
 
     private void startGame() {
+        for (Component component : playersPanel.getComponents()) {
+            if (component instanceof JPanel) {
+                JPanel playerPanel = (JPanel) component;
+                JTextField nameField = (JTextField) playerPanel.getComponent(0);
+                nameField.setEditable(false);
+            }
+        }
         melodiesPanel.removeAll();
         for (String music : gameLogic.getMelodies()) {
             JButton melodyButton = new JButton("Мелодия " + (gameLogic.getMelodies().indexOf(music) + 1));

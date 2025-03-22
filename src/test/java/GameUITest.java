@@ -120,4 +120,26 @@ public class GameUITest {
         assertTrue(melodyField.isVisible(), "Поле для ответа должно быть доступно для редактирования после начала игры");
         assertTrue(submitButton.isVisible(), "Кнопка 'Отправить' должна быть доступна после начала игры");
     }
+
+    @Test
+    public void testStartGameDisablesNameFields() {
+        List<String> melodies = List.of("src/main/resources/1.wav");
+        List<String> melodyNames = List.of("Моя мелодия");
+        GameLogic gameLogic = new GameLogic(melodies, melodyNames);
+        Melody melody = new Melody();
+        GameUI gameUI = new GameUI(gameLogic, melody);
+
+        JButton addPlayerButton = findButtonByText(gameUI, "Добавить игрока");
+        assertNotNull(addPlayerButton, "Кнопка 'Добавить игрока' не найдена");
+        addPlayerButton.doClick();
+        JPanel playersPanel = gameUI.getPlayersPanel();
+        JPanel playerPanel = (JPanel) playersPanel.getComponent(0);
+        JTextField nameField = (JTextField) playerPanel.getComponent(0);
+        assertTrue(nameField.isEditable(), "Поле для имени должно быть доступно для редактирования до начала игры");
+
+        JButton startButton = findButtonByText(gameUI, "НАЧАТЬ ИГРУ");
+        assertNotNull(startButton, "Кнопка 'НАЧАТЬ ИГРУ' не найдена");
+        startButton.doClick();
+        assertFalse(nameField.isEditable(), "Поле для имени должно быть недоступно для редактирования после начала игры");
+    }
 }
