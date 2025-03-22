@@ -18,4 +18,14 @@ public class Melody {
             e.printStackTrace();
         }
     }
+
+    public boolean isPlaying() {
+        return currentClip != null && currentClip.isRunning();
+    }
+
+    public void stopMelody() {
+        if (isPlaying()) {
+            currentClip.stop();
+        }
+    }
 }
