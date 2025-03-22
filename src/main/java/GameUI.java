@@ -18,6 +18,7 @@ public class GameUI extends JFrame {
     private JButton addPlayerButton;
     private List<Component> hiddenComponents;
     private int playerCount = 0;
+    private boolean isMelodySelected = false;
 
     public GameUI(GameLogic gameLogic, Melody melody) {
         this.gameLogic = gameLogic;
@@ -90,11 +91,17 @@ public class GameUI extends JFrame {
             submitButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    if (!isMelodySelected) {
+                        JOptionPane.showMessageDialog(GameUI.this, "Мелодия не выбрана!", "Ошибка", JOptionPane.WARNING_MESSAGE);
+                        melodyField.setText("");
+                        return;
+                    }
                     String answer = melodyField.getText();
                     if (gameLogic.checkAnswer(answer)) {
                         int score = Integer.parseInt(scoreLabel.getText().split(": ")[1]);
                         scoreLabel.setText("Баллы: " + (score + 1));
                         melody.stopMelody();
+                        isMelodySelected = false;
                         updateMelodyButton(gameLogic.getCurrentMelodyIndex());
                     }
                     melodyField.setText("");
@@ -142,6 +149,7 @@ public class GameUI extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     gameLogic.setCurrentMelodyIndex(melodyIndex);
                     melody.playMelody(music);
+                    isMelodySelected = true;
                 }
             });
             melodiesPanel.add(melodyButton);
